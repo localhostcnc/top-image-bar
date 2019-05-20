@@ -12,11 +12,24 @@ const addImageUrl = function(url, res, cb){
     for(var i = 0; i <= 100; i++){
         num++
         var imageUrl = `https://s3-us-west-1.amazonaws.com/fec-top-image-component/${num}.jpeg`
-        connection.query(`INSERT INTO images (url) VALUES ("${imageUrl}")`,);
+        connection.query(`INSERT INTO images (url) VALUES ("${imageUrl}")`);
         
     }
 }
+const getAll = function(res) {
+    connection.query('SELECT * FROM images', (err, data) => {
+      if (err) {
+        res.status(500);
+        res.send(err);
+      } else {
+        res.status(200);
+        res.send(data);
+      }
+    })
+  }
 
 
-
-export default seed;
+module.exports = {
+    addImageUrl: addImageUrl, 
+    getAll: getAll
+};
